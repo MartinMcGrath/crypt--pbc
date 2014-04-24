@@ -16,7 +16,7 @@ eval { assert_lib( lib => 'pbc', libpath=>\@libpath, incpath=>\@incpath, header 
 if( $@ ) {
     warn "Error locating libpbc version 0.5.1: $@";
 
-    warn "\nYou can get the latest debian binaries from https://voltar.org/pbcfiles\n\n";
+    warn "\nYou can get the latest debian binaries from http://crypto.stanford.edu/pbc/files/\n\n";
     sleep 1;
 
     my $res = ($ENV{BUILD_HERE} || prompt("Would you like to download and build libpbc from tarball automatically? [y/N]", "n"));
@@ -129,7 +129,7 @@ sub grab_libpbc {
     my $ver = shift;
     return 1 if -f "pbc-$ver.tar.gz" or $ENV{SKIP_DOWNLOAD};
 
-    warn "downloading libpbc from http://voltar.org/pbcfiles/pbc-$ver.tar.gz...\n";
+    warn "downloading libpbc from http://crypto.stanford.edu/pbc/files/pbc-$ver.tar.gz...\n";
 
     my $worked = 0;
     eval {
@@ -137,7 +137,7 @@ sub grab_libpbc {
         my $ua = LWP::UserAgent->new;
            $ua->agent("crypt-pbc-fetcher/1.0");
 
-        my $req = HTTP::Request->new(GET => "http://voltar.org/pbcfiles/pbc-$ver.tar.gz");
+        my $req = HTTP::Request->new(GET => "http://crypto.stanford.edu/pbc/files/pbc-$ver.tar.gz");
         my $res = $ua->request($req, "pbc-$ver.tar.gz");
 
         $worked = 1 if $res->is_success;
@@ -145,9 +145,9 @@ sub grab_libpbc {
     warn "LWP fetch problem: $@\n" if $@;
 
     unless( $worked ) {
-        if( 0 != system(wget => '-O', "pbc-$ver.tar.gz", "http://voltar.org/pbcfiles/pbc-$ver.tar.gz") ) {
+        if( 0 != system(wget => '-O', "pbc-$ver.tar.gz", "http://crypto.stanford.edu/pbc/files/pbc-$ver.tar.gz") ) {
             warn "couldn't fetch with wget...\n";
-            if( 0 != system(curl => '-o', "pbc-$ver.tar.gz", "http://voltar.org/pbcfiles/pbc-$ver.tar.gz") ) {
+            if( 0 != system(curl => '-o', "pbc-$ver.tar.gz", "http://crypto.stanford.edu/pbc/files/pbc-$ver.tar.gz") ) {
                 warn "couldn't fetch with curl ...\n";
             }
         }
